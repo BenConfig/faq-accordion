@@ -1,0 +1,166 @@
+/* ------------------------------------------------------ */
+/*                          Fonts                         */
+/* ------------------------------------------------------ */
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap');
+
+/* ------------------------------------------------------ */
+/*                    Custom Properties                   */
+/* ------------------------------------------------------ */
+:root {
+  /* Font Weights */
+  --fw-normal: 400;
+  --fw-bold: 600;
+  --fw-bolder: 700;
+
+  /* Border Radii */
+  --br-sm: .25rem;
+  --br-card: clamp(.5rem, .0625rem + 1.956vi, 1rem);
+  --br-pill: 100vmax;
+
+  /* Colors */
+  --clr-accent: 281 83% 54%;
+  --clr-white: 0 0% 100%;
+  --clr-body-bg: 275 100% 97%;
+  --clr-body-text: 292 16% 49%;
+  --clr-headings: 292 42% 14%;
+}
+
+/* ------------------------------------------------------ */
+/*                Resets and Global Styles                */
+/* ------------------------------------------------------ */
+* { box-sizing: border-box; }
+
+body, h1, h2, ul, p, button { margin: 0; }
+
+body {
+  display: grid;
+  place-items: center;
+  font: var(--fw-normal) 1rem/1.5 'Work Sans';
+  padding: 5rem clamp(1.5rem, -2.1875rem + 15.6479vi, 5.5rem);
+  color: hsl(var(--clr-body-text));
+  background: hsl(var(--clr-body-bg)) url('assets/images/background-pattern-mobile.svg') no-repeat top center;
+}
+
+@media only screen and (min-width: 23.43em) {
+  body {
+    padding-top: 10.5rem;
+    background-image: url('assets/images/background-pattern-desktop.svg');
+    background-size: max(90rem, 100%) auto;
+  }
+}
+
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+h1, h2 { color: hsl(var(--clr-headings)); }
+
+button {
+  min-width: 44px;
+  min-height: 44px;
+  border: none;
+  color: inherit;
+}
+
+/* ------------------------------------------------------ */
+/*                        Accordion                       */
+/* ------------------------------------------------------ */
+.card {
+  max-width: 37.5rem;
+  padding: 1.25rem 1.5rem .5rem;
+  padding-top: clamp(1.25rem, .6875rem + 2.445vi, 1.875rem);
+  padding-inline: clamp(1.5rem, .5625rem + 3.912vi, 2.5rem);
+  padding-bottom: .5rem;
+  padding-bottom: 1.5rem;
+  border-radius: var(--br-card);
+  background: hsl(var(--clr-white));
+  box-shadow: 0 1rem 2rem hsl(var(--clr-headings) / .1);
+}
+
+.accordion__item + .accordion__item { border-top: .0625rem solid hsl(var(--clr-body-bg)); }
+
+.card__heading {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, -.4375rem + 3.912vi, 1.5rem);
+  font-size: clamp(2rem, .75rem + 5.379vi, 3.5rem);
+  font-weight: var(--fw-bolder);
+}
+
+.card__heading::before {
+  content: url('assets/images/icon-star.svg');
+  display: flex;
+  scale: 0.6;
+  transform-origin: left;
+}
+
+@media only screen and (min-width: 40em) {
+  .card__heading::before { scale: 1; }
+}
+
+.accordion__btn {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  font: inherit;
+  font-size: clamp(1rem, 0.8854rem + .489vi, 1.125rem);
+  font-weight: var(--fw-bold);
+  line-height: 1.25;
+  text-align: left;
+  padding: clamp(1.25rem, 1rem + .978vi, 1.5rem) 0;
+  background: hsl(var(--clr-white));
+  cursor: pointer;
+  transition: color 100ms ease-in-out;
+}
+
+.accordion__btn:hover { color: hsl(var(--clr-accent)); }
+
+.accordion__btn:before {
+  position: absolute;
+  inset: .5rem -.75rem;
+  border-radius: var(--br-sm);
+  border: .125rem solid hsl(var(--clr-accent) / .75);
+}
+
+.accordion__btn:focus { outline: none; }
+.accordion__btn:focus-visible:before { content: ''; }
+
+.accordion__btn::after {
+  content: url('assets/images/icon-plus.svg');
+  display: flex;
+}
+
+[aria-expanded="true"]::after { content: url('assets//images//icon-minus.svg'); }
+
+.accordion__grid-container {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  opacity: 0;
+  transition-property: grid-template-rows, visibility, padding-bottom, opacity;
+  transition-duration: 250ms;
+  transition-timing-function: ease-in-out
+}
+
+.accordion__answer {
+  overflow: hidden;
+  font-size: clamp(.875rem, .75rem + .489vi, 1rem);
+  font-weight: var(--fw-normal);
+}
+
+.accordion__grid-container--expanded {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  padding-bottom: clamp(1.25rem, 1rem + .978vi, 1.5rem);
+  opacity: 1;
+}
+
+.accordion__grid-container--expanded > .accordion__btn::after {
+  content: url('assets/images/icon-minus.svg')
+}
+
